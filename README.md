@@ -30,4 +30,9 @@ this is a REST API for personl notes management System
    ex: all archive notes <br/>
        /api/v1/notes/{userid}/archive <br/>
  
-     
+  # futher work
+  In this project there not implement an authorization for security. Here can make authorization service for user secure and add permission to users access. <br/>
+  used auth service (if need premium users/ trial users we can strict authorization and seaprate role wise) </br>
+  Additionaly if need add components/ service can add independly for this service. </br>
+  ex: need to facility notes remind for a particuler time or day. We can implement separate service for that with interacting main service. <br>
+       notification service 
