@@ -1,7 +1,7 @@
-package com.thirdfort.personalNotesManagementSystem.service;
+package com.thirdfoot.personalNotesManagementSystem.service;
 
-import com.thirdfort.personalNotesManagementSystemModels.Model.Note;
-import com.thirdfort.personalNotesManagementSystemModels.ModelDto.NoteDto;
+import com.thirdfoot.personalNotesManagementSystemModels.Model.Note;
+import com.thirdfoot.personalNotesManagementSystemModels.ModelDto.NoteDto;
 
 import java.util.List;
 

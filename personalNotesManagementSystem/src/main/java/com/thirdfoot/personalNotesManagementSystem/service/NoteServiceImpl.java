@@ -1,8 +1,8 @@
-package com.thirdfort.personalNotesManagementSystem.service;
+package com.thirdfoot.personalNotesManagementSystem.service;
 
-import com.thirdfort.personalNotesManagementSystem.repository.NoteRepository;
-import com.thirdfort.personalNotesManagementSystemModels.Model.Note;
-import com.thirdfort.personalNotesManagementSystemModels.ModelDto.NoteDto;
+import com.thirdfoot.personalNotesManagementSystem.repository.NoteRepository;
+import com.thirdfoot.personalNotesManagementSystemModels.Model.Note;
+import com.thirdfoot.personalNotesManagementSystemModels.ModelDto.NoteDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,9 +21,10 @@ public class NoteServiceImpl implements NoteService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
+
     private NoteRepository noteRepository;
 
+    @Autowired
     public NoteServiceImpl(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
     }
@@ -39,16 +41,10 @@ public class NoteServiceImpl implements NoteService {
         Note note = checkNoteById(noteId);
         if (note != null) {
             Note note1 = modelMapper.map(noteDto, Note.class);
-            Note newNote = new Note();
-            newNote.setId(noteId);
-            newNote.setUserId(note.getUserId());
-            newNote.setDescription(note1.getDescription());
-            newNote.setTitle(note1.getTitle());
-            newNote.setCreateDate(new Date());
-            newNote.setArchived(note.isArchived());
-            newNote.setUserId(note.getUserId());
-            noteRepository.deleteById(noteId);
-            return noteRepository.save(newNote);
+            note1.setId(note.getId());
+            note1.setArchived(note.isArchived());
+//            noteRepository.deleteById(noteId);
+            return noteRepository.save(note1);
         }
         return null;
     }
@@ -56,14 +52,17 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public boolean archived(int id, boolean isArchive) throws RuntimeException {
         Note note = checkNoteById(id);
-        if (note.isArchived())
-            note.setArchived(false);
-        else
-            note.setArchived(true);
-        noteRepository.deleteById(id);
-        noteRepository.isArchived(id);
-        return true;
+        if (isArchive) {
+            note.setArchived(isArchive);
+            noteRepository.save(note);
+            return true;
+        }else{
+            note.setArchived(isArchive);
+            noteRepository.save(note);
+            return true;
+        }
     }
+
 
     @Override
     public List<Note> archiveNotes(int userId) throws RuntimeException {
@@ -77,8 +76,9 @@ public class NoteServiceImpl implements NoteService {
         return notes.stream().filter(n -> n.isArchived() == false).collect(Collectors.toList());
     }
 
-    private Note checkNoteById(int id) {
+    private Note checkNoteById(int id) throws NoSuchElementException {
         Optional<Note> note = noteRepository.findById(id);
+        System.out.println(note.get());
         return note.get();
     }
 

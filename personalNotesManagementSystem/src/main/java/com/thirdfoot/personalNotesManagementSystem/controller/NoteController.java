@@ -1,8 +1,8 @@
-package com.thirdfort.personalNotesManagementSystem.controller;
+package com.thirdfoot.personalNotesManagementSystem.controller;
 
-import com.thirdfort.personalNotesManagementSystem.service.NoteService;
-import com.thirdfort.personalNotesManagementSystemModels.Model.Note;
-import com.thirdfort.personalNotesManagementSystemModels.ModelDto.NoteDto;
+import com.thirdfoot.personalNotesManagementSystem.service.NoteService;
+import com.thirdfoot.personalNotesManagementSystemModels.Model.Note;
+import com.thirdfoot.personalNotesManagementSystemModels.ModelDto.NoteDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +14,9 @@ import java.util.List;
 @RequestMapping("/api/v1/notes")
 public class NoteController {
 
-    @Autowired
     private NoteService noteService;
 
+    @Autowired
     public NoteController(NoteService noteService) {
         this.noteService = noteService;
     }
@@ -37,14 +37,14 @@ public class NoteController {
     }
 
 
-    @PatchMapping("/{nid}/archive/{isArchive}")
-    public ResponseEntity<?> archived(@PathVariable("nid") int id, @PathVariable("isArchive") boolean isArchive) {
+    @PatchMapping("/{nid}/archive")
+    public ResponseEntity<?> archived(@PathVariable("nid") int id, @RequestParam("isArchive") boolean isArchive) {
         boolean archived = noteService.archived(id, isArchive);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
 
-    @PostMapping("{/id}")
+    @PostMapping("/{id}")
     public ResponseEntity<?> initiate(@RequestBody NoteDto note, @PathVariable("id") int userId) throws Exception {
         Note savedNote = noteService.initiate(note, userId);
         if (savedNote == null)

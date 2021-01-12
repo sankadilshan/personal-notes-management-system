@@ -1,12 +1,16 @@
-package com.thirdfort.personalNotesManagementSystemModels.Model;
+package com.thirdfoot.personalNotesManagementSystemModels.Model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id

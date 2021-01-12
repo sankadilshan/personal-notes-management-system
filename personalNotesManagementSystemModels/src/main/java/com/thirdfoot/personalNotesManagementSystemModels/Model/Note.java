@@ -1,9 +1,6 @@
-package com.thirdfort.personalNotesManagementSystemModels.Model;
+package com.thirdfoot.personalNotesManagementSystemModels.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,6 +10,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +18,7 @@ public class Note {
     private String title;
     private String description;
     private Date createDate= new Date();
-    private boolean isArchived=false;
+    private boolean isArchived;
     private int userId;
 
 }
